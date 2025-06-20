@@ -1,106 +1,15 @@
 {
-  "name": "feedback",
   "nodes": [
     {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        0,
+        520,
         -40
       ],
       "id": "b3375d46-2049-400f-8dd4-e68ddc970468",
       "name": "When clicking ‘Execute workflow’"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "=use the supabase tool to retrieve interview conversation and knowledge database to retrieve job description and resume",
-        "options": {
-          "systemMessage": "=##instruction\nuse the knowledge database tool to access resume and job description\n\nYou are a HR at NCG. look at the interview conversation and determine whether the interviewee is fit for the role\n\ntools\nknowledge database- use this tool to access the job description and resume\nsupabase- use this to access interview conversation"
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 2,
-      "position": [
-        912,
-        -40
-      ],
-      "id": "d16e3576-6617-45db-bc50-fa1ba42b6652",
-      "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "mode": "combine",
-        "combineBy": "combineAll",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.1,
-      "position": [
-        660,
-        60
-      ],
-      "id": "325d3e05-add5-4bb1-9f5d-a0095d2d28dc",
-      "name": "Merge"
-    },
-    {
-      "parameters": {
-        "operation": "search",
-        "base": {
-          "__rl": true,
-          "value": "appRva6fm01I0xDCJ",
-          "mode": "list",
-          "cachedResultName": "Agent memories",
-          "cachedResultUrl": "https://airtable.com/appRva6fm01I0xDCJ"
-        },
-        "table": {
-          "__rl": true,
-          "value": "tbluDBALVS6Qtvl3a",
-          "mode": "list",
-          "cachedResultName": "Table 1",
-          "cachedResultUrl": "https://airtable.com/appRva6fm01I0xDCJ/tbluDBALVS6Qtvl3a"
-        },
-        "options": {},
-        "sort": {
-          "property": [
-            {
-              "field": "created"
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.airtable",
-      "typeVersion": 2.1,
-      "position": [
-        220,
-        35
-      ],
-      "id": "6272b141-c14b-413e-85a2-44da29a0a6e8",
-      "name": "get conversation",
-      "credentials": {
-        "airtableTokenApi": {
-          "id": "2v6rjHnnZ80GD30A",
-          "name": "Airtable Personal Access Token account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "aggregate": "aggregateAllItemData",
-        "destinationFieldName": "memory",
-        "include": "specifiedFields",
-        "fieldsToInclude": "question, answer",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
-      "position": [
-        440,
-        35
-      ],
-      "id": "8c1a9bb6-fd8f-4755-bbd4-6d9491e6cad3",
-      "name": "Aggregate"
     },
     {
       "parameters": {
@@ -124,50 +33,41 @@
     },
     {
       "parameters": {
-        "modelName": "models/embedding-001"
-      },
-      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        1380,
-        460
-      ],
-      "id": "2ec1b412-30fb-436d-aa55-be0fca8f7baf",
-      "name": "Embeddings Google Gemini",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "7QraoPUweOsXAgJT",
-          "name": "Google Gemini(PaLM) Api account"
+        "promptType": "define",
+        "text": "check the knowledge database once before answering any questions about the candidate's experience, skills, education, or background.\nYou are an AI interview evaluator. Your task is to assess an interviewee's performance based on the following:\n1. Their responses during the interview conversation, stored in Chat History Tool\n2. Their resume, the job description, stored in the knowledge database for semantic relevance evaluation.\n\n**Objectives**:\n- Score the interviewee on a scale of 1 to 10.\n- Provide a justification for the score based on:\n  - Alignment between their skills/experience and the job description.\n  - Quality of their responses in terms of clarity, technical depth, and problem-solving ability.\n  - Demonstration of initiative, adaptability, and alignment with the company’s values.\n\n**Process**:\n1. Use the Chat History tool to retrieve the interview conversation.\n2. Query the Knowledge database with the job description to identify key responsibilities and skills.\n3. Compare the resume and conversation responses to the job description for alignment and completeness.\n4. Evaluate their interview responses based on:\n   - Specific examples they provided.\n   - Problem-solving techniques and adaptability.\n   - Behavioural and cultural fit with the company.\n\n**Output Format**:\n- Score: X/10\n- Justification: A detailed explanation of how the score was derived, focusing on strengths and areas of improvement.\n\nFor example:\n\"Score: 8/10  \nThe interviewee demonstrated strong alignment with the job requirements, particularly in embedded systems and IoT. Their responses showcased technical depth and initiative, but they could improve their problem-solving approach for multitasking scenarios.\"\n\nBegin your evaluation now.\n",
+        "options": {
+          "systemMessage": "=You are a HR at NCG. look at the interview conversation and job description and determine whether the interviewee is fit for the role\ngive a score out of 10 on how fit the interviewee is for the role\n\n\ntools\nknowledge database- use this tool to access the job description and resume\nsupabase- use this to access interview conversation"
         }
-      }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        912,
+        -40
+      ],
+      "id": "d16e3576-6617-45db-bc50-fa1ba42b6652",
+      "name": "feedback agent"
     },
     {
       "parameters": {
-        "mode": "retrieve-as-tool",
-        "toolName": "resume_job_description",
-        "toolDescription": "call this tool to search the candidate's resume for work experience, education, skills, projects, and personal details, and the job description and interview qna\n",
-        "pineconeIndex": {
-          "__rl": true,
-          "value": "new",
-          "mode": "list",
-          "cachedResultName": "new"
-        },
-        "options": {
-          "pineconeNamespace": "resume, job description and interview qna"
-        }
+        "descriptionType": "manual",
+        "toolDescription": "Use this tool to get interviewee's resume job description for the role he applied for",
+        "operation": "getAll",
+        "tableId": "documents",
+        "returnAll": true
       },
-      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
-      "typeVersion": 1.1,
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
       "position": [
-        1340,
-        260
+        1180,
+        180
       ],
-      "id": "2ece3583-b4c9-4c44-81e7-eb018c7038b5",
-      "name": "knowledge database",
+      "id": "91c8977f-9593-48ae-88a5-18d50272fe14",
+      "name": "Knowledge Database",
       "credentials": {
-        "pineconeApi": {
-          "id": "MzYh7QOim2p8DpAz",
-          "name": "PineconeApi account"
+        "supabaseApi": {
+          "id": "0MpjOAvVuOLfm3S0",
+          "name": "Supabase account"
         }
       }
     },
@@ -180,11 +80,11 @@
       "type": "n8n-nodes-base.supabaseTool",
       "typeVersion": 1,
       "position": [
-        1180,
-        260
+        1020,
+        200
       ],
       "id": "a66fd28b-a8c6-472c-9557-1098a289ac39",
-      "name": "Supabase",
+      "name": "Chat History",
       "credentials": {
         "supabaseApi": {
           "id": "0MpjOAvVuOLfm3S0",
@@ -193,42 +93,14 @@
       }
     }
   ],
-  "pinData": {},
   "connections": {
     "When clicking ‘Execute workflow’": {
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "feedback agent",
             "type": "main",
             "index": 0
-          }
-        ]
-      ]
-    },
-    "Merge": {
-      "main": [
-        []
-      ]
-    },
-    "get conversation": {
-      "main": [
-        [
-          {
-            "node": "Aggregate",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Aggregate": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 1
           }
         ]
       ]
@@ -237,45 +109,34 @@
       "ai_languageModel": [
         [
           {
-            "node": "AI Agent",
+            "node": "feedback agent",
             "type": "ai_languageModel",
             "index": 0
           }
         ]
       ]
     },
-    "Embeddings Google Gemini": {
-      "ai_embedding": [
-        [
-          {
-            "node": "knowledge database",
-            "type": "ai_embedding",
-            "index": 0
-          }
-        ]
+    "feedback agent": {
+      "main": [
+        []
       ]
     },
-    "knowledge database": {
+    "Knowledge Database": {
       "ai_tool": [
         [
           {
-            "node": "AI Agent",
+            "node": "feedback agent",
             "type": "ai_tool",
             "index": 0
           }
         ]
       ]
     },
-    "AI Agent": {
-      "main": [
-        []
-      ]
-    },
-    "Supabase": {
+    "Chat History": {
       "ai_tool": [
         [
           {
-            "node": "AI Agent",
+            "node": "feedback agent",
             "type": "ai_tool",
             "index": 0
           }
@@ -283,15 +144,9 @@
       ]
     }
   },
-  "active": false,
-  "settings": {
-    "executionOrder": "v1"
-  },
-  "versionId": "bb10e865-3a92-460a-8ae3-7fad7c3acd70",
+  "pinData": {},
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "a52e95520d45953282757a9a7a7fe86175ff1d6c954aac081eda65fb8ae4e004"
-  },
-  "id": "lNcSxknKXF460YXL",
-  "tags": []
+  }
 }
