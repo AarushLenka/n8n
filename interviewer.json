@@ -4,13 +4,13 @@
       "parameters": {
         "content": "### Load data into database\nFetch file from Google Drive, split it into chunks and insert into Pinecone index",
         "height": 627,
-        "width": 2958
+        "width": 1798
       },
       "id": "0f2135fb-2ed6-41dc-96b2-d690dc4b253f",
       "name": "Sticky Note",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -4480,
+        -3320,
         480
       ],
       "typeVersion": 1
@@ -37,8 +37,8 @@
       "name": "When clicking 'Test Workflow' button",
       "type": "n8n-nodes-base.manualTrigger",
       "position": [
-        -4180,
-        760
+        -3260,
+        800
       ],
       "typeVersion": 1
     },
@@ -70,7 +70,7 @@
       "name": "Google Drive",
       "type": "n8n-nodes-base.googleDrive",
       "position": [
-        -3120,
+        -2740,
         800
       ],
       "typeVersion": 3,
@@ -159,29 +159,10 @@
     },
     {
       "parameters": {
-        "modelName": "models/embedding-001"
-      },
-      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        -300,
-        900
-      ],
-      "id": "9a7984db-ff98-42fe-9b79-71c2313b7a0a",
-      "name": "Embeddings Google Gemini1",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "7QraoPUweOsXAgJT",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "promptType": "define",
         "text": "={{ $json.chatInput }}",
         "options": {
-          "systemMessage": "You are Octo, an AI-powered expert interviewer designed to conduct professional, thorough, and fair interviews for a specific job role. You have access to the following tools and resources:\n\n1. **Supabase Tool**: Use this to query a database containing:\n   - The interviewee’s resume.\n   - The job description for the position.\n   - A record of interview questions and answers for reference.\n\n2. **Your Objectives**:\n   - Conduct a structured and professional interview.\n   - Refer to the interviewee’s resume, job description, and previous responses to ask relevant and insightful questions.\n   - Check for consistency between the interviewee’s answers, resume, and job description, and probe deeper when inconsistencies are detected.\n   - Evaluate the interviewee's technical knowledge, problem-solving abilities, and cultural fit based on their responses.\n\n3. **Behavior Guidelines**:\n   - Maintain a professional and neutral tone throughout the interview.\n   - Avoid making assumptions or judgments without evidence from the provided resources.\n   - If the interviewee misbehaves (e.g., uses offensive language, refuses to answer questions without a valid reason), terminate the interview immediately with a polite but firm explanation.\n\n4. **Interview Flow**:\n   - Start by introducing yourself and outlining the interview process.\n   - Begin with general questions based on the job description and resume.\n   - Progress to role-specific technical and behavioral questions.\n   - If inconsistencies arise between the resume, job description, and the interviewee’s answers, ask follow-up questions to clarify or probe deeper.\n   - End the interview with an evaluation and an opportunity for the interviewee to ask questions.\n\n5. **Behavior Enforcement**:\n   - If misbehavior is detected:\n     - Warn the interviewee once with a reminder to maintain professionalism.\n     - If the behavior persists, terminate the interview with the following statement:\n       \"Thank you for your time, but we will need to end the interview here due to inappropriate behavior. Best wishes for your future endeavors.\"\n\n\n**Rules**:\n- Always query the Supabase database for relevant information before asking a question or evaluating an answer.\n- Ask clear, concise, and open-ended questions.\n- Use only the information from the resume, job description, and interview Q&A to guide your evaluation.\n\nBegin the interview process now.\n"
+          "systemMessage": "You are Octo, an AI-powered expert interviewer designed to conduct professional, thorough, and fair interviews for a specific job role. You have access to the following tools and resources:\n\n1. **Knowledge Database**: ALWAYS Use this to query a database containing:\n   - The interviewee’s resume.\n   - The job description for the position.\n   - A record of interview questions and answers for reference.\n\n2. **Your Objectives**:\n   - Conduct a structured and professional interview.\n   - Refer to the interviewee’s resume, job description, and previous responses to ask relevant and insightful questions.\n   - Check for consistency between the interviewee’s answers, resume, and job description, and probe deeper when inconsistencies are detected.\n   - Evaluate the interviewee's technical knowledge, problem-solving abilities, and cultural fit based on their responses.\n\n3. **Behavior Guidelines**:\n   - Maintain a professional and neutral tone throughout the interview.\n   - Avoid making assumptions or judgments without evidence from the provided resources.\n   - If the interviewee misbehaves (e.g., uses offensive language, refuses to answer questions without a valid reason), terminate the interview immediately with a polite but firm explanation.\n\n4. **Interview Flow**:\n   - Start by introducing yourself and outlining the interview process.\n   - Begin with general questions based on the job description and resume.\n   - Progress to role-specific technical and behavioral questions.\n   - If inconsistencies arise between the resume, job description, and the interviewee’s answers, ask follow-up questions to clarify or probe deeper.\n   - End the interview with an evaluation and an opportunity for the interviewee to ask questions.\n\n5. **Behavior Enforcement**:\n   - If misbehavior is detected:\n     - Warn the interviewee once with a reminder to maintain professionalism.\n     - If the behavior persists, terminate the interview with the following statement:\n       \"Thank you for your time, but we will need to end the interview here due to inappropriate behavior. Best wishes for your future endeavors.\"\n\n\n**Rules**:\n- Always query the Supabase database for relevant information before asking a question or evaluating an answer.\n- Ask clear, concise, and open-ended questions.\n- Use only the information from the resume, job description, and interview Q&A to guide your evaluation.\n\nBegin the interview process now.\n"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -215,8 +196,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        -3940,
-        720
+        -2980,
+        800
       ],
       "id": "39b12c6a-1eda-47ec-a2bb-cfcbfc2f0fb7",
       "name": "Google Drive1",
@@ -234,8 +215,8 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        -2600,
-        940
+        -2400,
+        780
       ],
       "id": "2621ed67-9a78-407e-962e-3e2de9a65554",
       "name": "Loop Over Items"
@@ -258,36 +239,6 @@
           "name": "Postgres account"
         }
       }
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "691bcf47-a985-462c-9783-a13307f8562d",
-        "responseMode": "responseNode",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        -1140,
-        860
-      ],
-      "id": "a2446912-1f1c-4343-aad8-3e0d973e7770",
-      "name": "Webhook",
-      "webhookId": "691bcf47-a985-462c-9783-a13307f8562d"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.3,
-      "position": [
-        100,
-        740
-      ],
-      "id": "22720331-d95f-44cb-8904-fa9c93cca1e7",
-      "name": "Respond to Webhook"
     },
     {
       "parameters": {
@@ -319,95 +270,8 @@
     },
     {
       "parameters": {
-        "operation": "delete",
-        "tableId": "documents",
-        "filterType": "string",
-        "filterString": "=metadata->>file_id=like.*{{ $json.file_id }}*"
-      },
-      "type": "n8n-nodes-base.supabase",
-      "typeVersion": 1,
-      "position": [
-        -2340,
-        1200
-      ],
-      "id": "c492953d-dfd5-4b1b-a913-86887062666e",
-      "name": "Supabase",
-      "alwaysOutputData": true,
-      "credentials": {
-        "supabaseApi": {
-          "id": "0MpjOAvVuOLfm3S0",
-          "name": "Supabase account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "delete",
-        "tableId": "documents",
-        "filters": {
-          "conditions": [
-            {
-              "keyName": "content",
-              "condition": "eq",
-              "keyValue": "={{ $('Set File ID').item.json.file_id }}"
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.supabase",
-      "typeVersion": 1,
-      "position": [
-        -2180,
-        1200
-      ],
-      "id": "f9ef7e12-b1d4-4a74-af12-d68e8412e7e3",
-      "name": "Supabase1",
-      "alwaysOutputData": true,
-      "credentials": {
-        "supabaseApi": {
-          "id": "0MpjOAvVuOLfm3S0",
-          "name": "Supabase account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ba0e888a-a792-4d64-8ca2-28f91ca8b345",
-              "name": "file_id",
-              "value": "={{ $json.id }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -2480,
-        1200
-      ],
-      "id": "75da18d1-86e4-4304-bf4a-c48b1e8311b6",
-      "name": "Set File ID"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        -2980,
-        1180
-      ],
-      "id": "cddf5916-8e9f-480d-920f-b82333be7c3c",
-      "name": "Loop Over Items1"
-    },
-    {
-      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Use this tool to get the resume, job description and interview questions",
         "operation": "getAll",
         "tableId": "documents",
         "returnAll": true
@@ -419,80 +283,11 @@
         880
       ],
       "id": "89cff76d-32a6-4501-9826-fdae146b2a53",
-      "name": "Supabase2",
+      "name": "Knowledge database",
       "credentials": {
         "supabaseApi": {
           "id": "0MpjOAvVuOLfm3S0",
           "name": "Supabase account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "get",
-        "agentId": "agent_01jwawkk2ned7rx5fpz14t4rn7"
-      },
-      "type": "n8n-nodes-elevenlabs-conversational.elevenLabsConversational",
-      "typeVersion": 1,
-      "position": [
-        80,
-        880
-      ],
-      "id": "6cd0cce9-1d8e-4b40-8731-4bf84fed200a",
-      "name": "Eleven Labs Conversational",
-      "credentials": {
-        "elevenLabsApi": {
-          "id": "1sKEjnSl1zTbXpmf",
-          "name": "ElevenLabs account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "speech",
-        "voice": {
-          "__rl": true,
-          "value": "EXAVITQu4vr4xnSDxMaL",
-          "mode": "list",
-          "cachedResultName": "Sarah"
-        },
-        "additionalOptions": {},
-        "requestOptions": {}
-      },
-      "type": "@elevenlabs/n8n-nodes-elevenlabs.elevenLabsTool",
-      "typeVersion": 1,
-      "position": [
-        -40,
-        540
-      ],
-      "id": "e9e54089-c3b6-4e38-8df7-0b4e2d6133cc",
-      "name": "ElevenLabs",
-      "credentials": {
-        "elevenLabsApi": {
-          "id": "1sKEjnSl1zTbXpmf",
-          "name": "ElevenLabs account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "speech",
-        "operation": "speechToText",
-        "additionalOptions": {},
-        "requestOptions": {}
-      },
-      "type": "@elevenlabs/n8n-nodes-elevenlabs.elevenLabs",
-      "typeVersion": 1,
-      "position": [
-        0,
-        380
-      ],
-      "id": "3eae3aa3-01f3-45e6-8b70-b6a10ba9fbe9",
-      "name": "ElevenLabs1",
-      "credentials": {
-        "elevenLabsApi": {
-          "id": "1sKEjnSl1zTbXpmf",
-          "name": "ElevenLabs account"
         }
       }
     }
@@ -575,11 +370,6 @@
         ]
       ]
     },
-    "Embeddings Google Gemini1": {
-      "ai_embedding": [
-        []
-      ]
-    },
     "Interviewer": {
       "main": [
         []
@@ -619,17 +409,6 @@
         ]
       ]
     },
-    "Webhook": {
-      "main": [
-        [
-          {
-            "node": "Interviewer",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Supabase Vector Store": {
       "main": [
         [
@@ -641,41 +420,7 @@
         ]
       ]
     },
-    "Supabase": {
-      "main": [
-        [
-          {
-            "node": "Supabase1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Set File ID": {
-      "main": [
-        [
-          {
-            "node": "Supabase",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Loop Over Items1": {
-      "main": [
-        [],
-        [
-          {
-            "node": "Set File ID",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Supabase2": {
+    "Knowledge database": {
       "ai_tool": [
         [
           {
